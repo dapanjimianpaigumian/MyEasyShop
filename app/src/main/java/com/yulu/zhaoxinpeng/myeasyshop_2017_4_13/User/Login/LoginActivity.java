@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Registe.RegisteActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetClient;
 
 import java.io.IOException;
 
@@ -101,19 +102,7 @@ public class LoginActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.btn_login:
 
-                OkHttpClient mOkHttpClient=new OkHttpClient();
-
-                RequestBody mRequestBody=new FormBody.Builder()
-                        .add("username",username)
-                        .add("password",password)
-                        .build();
-
-                Request mRequest=new Request.Builder()
-                        .url("http://wx.feicuiedu.com:9094/yitao/UserWeb?method=login")
-                        .post(mRequestBody)
-                        .build();
-
-                mOkHttpClient.newCall(mRequest).enqueue(new Callback() {
+                NetClient.getInstance().Login(username,password).enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         Log.e("Login", "网络连接失败");

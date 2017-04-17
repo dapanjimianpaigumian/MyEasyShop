@@ -16,9 +16,12 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.gson.Gson;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.RegexUtils;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.UserResult;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetClient;
 
 import java.io.IOException;
 
@@ -123,19 +126,8 @@ public class RegisteActivity extends AppCompatActivity {
             mActivityUtils.showToast(R.string.username_equal_pwd);
             return;
         }
-        OkHttpClient mOkHttpClient = new OkHttpClient();
 
-        RequestBody requestBody=new FormBody.Builder()
-                .add("username",Username)
-                .add("passowrd",Password)
-                .build();
-
-        final Request request=new Request.Builder()
-                .url("http://wx.feicuiedu.com:9094/yitao/UserWeb?method=register")
-                .post(requestBody)
-                .build();
-
-        mOkHttpClient.newCall(request).enqueue(new Callback() {
+        NetClient.getInstance().Registe(Username,Password).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 Log.e("Registe", "网络连接失败");
@@ -143,11 +135,14 @@ public class RegisteActivity extends AppCompatActivity {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                Log.e("Registe", "网络连接成功");
                 if (response.isSuccessful()) {
-                    Log.e("Registe", "服务器成功响应");
-                } else {
-                    Log.e("Registe", "请求失败");
+                    String json = response.body().string();
+
+                    //将服务器返回的数据解析为一个类
+                    UserResult userResult = new Gson().fromJson(json, UserResult.class);
+
+                    Log.e("Registe","code="+userResult.getCode());
+                    Log.e("Registe","msg="+userResult.getMessage());
                 }
             }
         });
