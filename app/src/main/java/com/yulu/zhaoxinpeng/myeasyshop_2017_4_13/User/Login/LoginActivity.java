@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -16,9 +17,18 @@ import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Registe.RegisteActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
 
+import java.io.IOException;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -33,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.tv_register)
     TextView mTvRegister;
     private ActivityUtils mActivityUtils;
+    private String username;
+    private String password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,11 +80,11 @@ public class LoginActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-            String Username = mEtUsername.getText().toString();
-            String Password = mEtPwd.getText().toString();
+            username = mEtUsername.getText().toString();
+            password = mEtPwd.getText().toString();
 
             //判断用户名、密码是否为空
-            boolean canLogin = !(TextUtils.isEmpty(Username) || TextUtils.isEmpty(Password));
+            boolean canLogin = !(TextUtils.isEmpty(username) || TextUtils.isEmpty(password));
             mBtnLogin.setEnabled(canLogin);
         }
     };
@@ -88,7 +100,35 @@ public class LoginActivity extends AppCompatActivity {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                mActivityUtils.showToast("执行网络登陆请求");
+
+                OkHttpClient mOkHttpClient=new OkHttpClient();
+
+                RequestBody mRequestBody=new FormBody.Builder()
+                        .add("username",username)
+                        .add("password",password)
+                        .build();
+
+                Request mRequest=new Request.Builder()
+                        .url("http://wx.feicuiedu.com:9094/yitao/UserWeb?method=login")
+                        .post(mRequestBody)
+                        .build();
+
+                mOkHttpClient.newCall(mRequest).enqueue(new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        Log.e("Login", "网络连接失败");
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        Log.e("Login", "网络连接成功");
+                        if (response.isSuccessful()) {
+                            Log.e("Login", "服务器成功响应");
+                        } else {
+                            Log.e("Login", "请求失败");
+                        }
+                    }
+                });
                 break;
             case R.id.tv_register:
                 mActivityUtils.startActivity(RegisteActivity.class);
