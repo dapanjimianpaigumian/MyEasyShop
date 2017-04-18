@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -18,10 +19,12 @@ import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.gson.Gson;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Login.LoginActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.RegexUtils;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.UserResult;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetClient;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.UICallBack;
 
 import java.io.IOException;
 
@@ -127,23 +130,15 @@ public class RegisteActivity extends AppCompatActivity {
             return;
         }
 
-        NetClient.getInstance().Registe(Username,Password).enqueue(new Callback() {
+        NetClient.getInstance().Registe(Username,Password).enqueue(new UICallBack() {
             @Override
-            public void onFailure(Call call, IOException e) {
-                Log.e("Registe", "网络连接失败");
+            public void onFailureUI(Call call, IOException e) {
+                Toast.makeText(RegisteActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()) {
-                    String json = response.body().string();
-
-                    //将服务器返回的数据解析为一个类
-                    UserResult userResult = new Gson().fromJson(json, UserResult.class);
-
-                    Log.e("Registe","code="+userResult.getCode());
-                    Log.e("Registe","msg="+userResult.getMessage());
-                }
+            public void onResponseUI(Call call, String body) {
+                Toast.makeText(RegisteActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
             }
         });
     }

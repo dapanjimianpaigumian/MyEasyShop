@@ -10,22 +10,23 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.MainActivity">
+        <activity
+            android:name=".main.MainActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".main.SplashActivity" />
-        <activity android:name=".User.Login.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".User.Registe.RegisteActivity"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
+        <activity
+            android:name=".main.SplashActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".User.Login.LoginActivity"
+            android:launchMode="singleTask"></activity>
+        <activity android:name=".User.Registe.RegisteActivity"
+            android:launchMode="singleTask"></activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
         <meta-data
             android:name="com.google.android.gms.version"

@@ -12,11 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Registe.RegisteActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetClient;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.UICallBack;
 
 import java.io.IOException;
 
@@ -102,20 +104,15 @@ public class LoginActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.btn_login:
 
-                NetClient.getInstance().Login(username,password).enqueue(new Callback() {
+                NetClient.getInstance().Login(username,password).enqueue(new UICallBack() {
                     @Override
-                    public void onFailure(Call call, IOException e) {
-                        Log.e("Login", "网络连接失败");
+                    public void onFailureUI(Call call, IOException e) {
+                        Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        Log.e("Login", "网络连接成功");
-                        if (response.isSuccessful()) {
-                            Log.e("Login", "服务器成功响应");
-                        } else {
-                            Log.e("Login", "请求失败");
-                        }
+                    public void onResponseUI(Call call, String body) {
+                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
