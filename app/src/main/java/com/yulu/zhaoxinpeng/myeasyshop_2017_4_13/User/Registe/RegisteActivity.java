@@ -1,5 +1,6 @@
 package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Registe;
 
+import android.app.ProgressDialog;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -42,7 +43,7 @@ import okhttp3.Response;
 
 import static android.R.string.ok;
 
-public class RegisteActivity extends AppCompatActivity {
+public class RegisteActivity extends AppCompatActivity implements RegisteView{
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -64,6 +65,7 @@ public class RegisteActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,21 +132,23 @@ public class RegisteActivity extends AppCompatActivity {
             return;
         }
 
-        NetClient.getInstance().Registe(Username,Password).enqueue(new UICallBack() {
-            @Override
-            public void onFailureUI(Call call, IOException e) {
-                Toast.makeText(RegisteActivity.this, "注册失败", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onResponseUI(Call call, String body) {
-                Toast.makeText(RegisteActivity.this, "注册成功", Toast.LENGTH_SHORT).show();
-            }
-        });
+        new RegistePresenter(this).Registe(Username,Password);
     }
 
+    @Override
+    public void showProgressbar() {
+        mProgressDialog = ProgressDialog.show(this,"注册","正在注册中，请稍候~");
+    }
 
+    @Override
+    public void hideProgressbar() {
+        mProgressDialog.dismiss();
+    }
 
+    @Override
+    public void showToast(String s) {
+        mActivityUtils.showToast(s);
+    }
 
 
     //----------------------------网络模块----------------------------------------------------------------------

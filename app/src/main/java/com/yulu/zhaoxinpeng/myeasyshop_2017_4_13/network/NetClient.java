@@ -6,6 +6,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
 
 /**
  * Created by Administrator on 2017/4/17.
@@ -28,9 +29,10 @@ public class NetClient {
         mOkHttpClient = new OkHttpClient.Builder()
                 .addInterceptor(mHttpLoggingInterceptor)
                 .build();
+
     }
 
-    public static NetClient getInstance(){
+    public static synchronized NetClient getInstance(){
         if (mNetClient==null) {
             mNetClient = new NetClient();
         }

@@ -54,6 +54,7 @@ public class ActivityUtils {
         return null;
     }
 
+    // 封装的弹吐司的方法
     public void showToast(CharSequence msg){
         Activity activity = getActivity();
         if (activity != null){

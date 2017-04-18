@@ -1,39 +1,28 @@
 package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Login;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Registe.RegisteActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
-import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetClient;
-import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.UICallBack;
-
-import java.io.IOException;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import butterknife.Unbinder;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginView{
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -48,14 +37,18 @@ public class LoginActivity extends AppCompatActivity {
     private ActivityUtils mActivityUtils;
     private String username;
     private String password;
+    private Unbinder bind;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
 
         mActivityUtils = new ActivityUtils(this);
+
+
 
         initView();
     }
@@ -104,21 +97,37 @@ public class LoginActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.btn_login:
 
-                NetClient.getInstance().Login(username,password).enqueue(new UICallBack() {
-                    @Override
-                    public void onFailureUI(Call call, IOException e) {
-                        Toast.makeText(LoginActivity.this, "登陆失败", Toast.LENGTH_SHORT).show();
-                    }
+                new LoginPresenter(this).Login(username,password);
 
-                    @Override
-                    public void onResponseUI(Call call, String body) {
-                        Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                    }
-                });
                 break;
             case R.id.tv_register:
                 mActivityUtils.startActivity(RegisteActivity.class);
                 break;
         }
+    }
+
+    /*@Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bind.unbind();
+    }*/
+
+    @Override
+    public void showProgressbar() {
+
+        mProgressDialog=ProgressDialog.show(this,"登录","正在登录中，请稍候~");
+    }
+
+    @Override
+    public void hideProgressbar() {
+
+        if (mProgressDialog!=null) {
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void showToast(String s) {
+        mActivityUtils.showToast(s);
     }
 }
