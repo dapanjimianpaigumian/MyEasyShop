@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,12 +41,13 @@ public class MainActivity extends AppCompatActivity {
     //点击2次返回，退出程序
     private boolean isExit = false;
     private ActivityUtils mActivityUtils;
+    private Unbinder bind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        bind = ButterKnife.bind(this);
         mActivityUtils = new ActivityUtils(this);
 
         initView();
@@ -139,5 +141,11 @@ public class MainActivity extends AppCompatActivity {
         //如果不要平滑效果，可将第二个参数为false
         mViewPager.setCurrentItem((int) textView.getTag(), true);
         mTitle.setText(mTextViews[(int) textView.getTag()].getText());
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        bind.unbind();
     }
 }

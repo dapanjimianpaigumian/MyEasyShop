@@ -3,6 +3,9 @@ package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Login;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.google.gson.Gson;
+import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.UserResult;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetClient;
 
 import java.io.IOException;
@@ -15,27 +18,35 @@ import okhttp3.Response;
  * Created by Administrator on 2017/4/18.
  */
 
-public class LoginPresenter {
+public class LoginPresenter extends MvpNullObjectBasePresenter<LoginView>{
 
-    private LoginView mLoginView;
-    private Handler mHandler = new Handler(Looper.getMainLooper());
+    // TODO: 2017/4/19 0019 环信相关
 
-    public LoginPresenter(LoginView LoginView) {
-        this.mLoginView = LoginView;
+    private Call call;
+
+    //解绑视图
+    @Override
+    public void detachView(boolean retainInstance) {
+        super.detachView(retainInstance);
+        if (call!=null) call.cancel();
     }
 
-    public void Login(String username, String password) {
-        mLoginView.showProgressbar();
+    private Handler mHandler = new Handler(Looper.getMainLooper());
 
-        NetClient.getInstance().Login(username, password).enqueue(new Callback() {
+    public void Login(String username, String password) {
+        getView().showPrb();
+
+        call = NetClient.getInstance().Login(username, password);
+
+        call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
 
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
-                        mLoginView.hideProgressbar();
-                        mLoginView.showToast("登录失败: " + e.getMessage());
+                        getView().hidePrb();
+                        getView().showMsg(e.getMessage());
                     }
                 });
             }
@@ -43,10 +54,31 @@ public class LoginPresenter {
             @Override
             public void onResponse(Call call, final Response response) throws IOException {
                 mHandler.post(new Runnable() {
+
+                    private UserResult userResult;
+
                     @Override
                     public void run() {
-                        mLoginView.hideProgressbar();
-                        mLoginView.showToast("登录成功: " + response.code());
+
+                        try {
+                            userResult = new Gson().fromJson(response.body().string(), UserResult.class);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+
+                        if (userResult.getCode()==1) {
+                            // TODO: 2017/4/19 0019 保存用户登录信息到本地配置
+                            getView().hidePrb();
+                            getView().loginSuccess();
+                            getView().showMsg("登录成功");
+                        }else if (userResult.getCode() == 2){
+                            getView().hidePrb();
+                            getView().showMsg(userResult.getMessage());
+                            getView().loginFailed();
+                        }else{
+                            getView().hidePrb();
+                            getView().showMsg("未知错误");
+                        }
                     }
                 });
             }

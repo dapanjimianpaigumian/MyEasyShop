@@ -1,8 +1,7 @@
 package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Login;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -13,16 +12,19 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Registe.RegisteActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.components.ProgressDialogFragment;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class LoginActivity extends AppCompatActivity implements LoginView{
+public class LoginActivity extends MvpActivity<LoginView,LoginPresenter> implements LoginView{
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -38,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
     private String username;
     private String password;
     private Unbinder bind;
-    private ProgressDialog mProgressDialog;
+    private ProgressDialogFragment mProgressDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,9 +50,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
 
         mActivityUtils = new ActivityUtils(this);
 
-
-
         initView();
+    }
+
+    @NonNull
+    @Override
+    public LoginPresenter createPresenter() {
+        return new LoginPresenter();
     }
 
     private void initView() {
@@ -97,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         switch (view.getId()) {
             case R.id.btn_login:
 
-                new LoginPresenter(this).Login(username,password);
+                getPresenter().Login(username,password);
 
                 break;
             case R.id.tv_register:
@@ -106,28 +112,40 @@ public class LoginActivity extends AppCompatActivity implements LoginView{
         }
     }
 
-    /*@Override
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         bind.unbind();
-    }*/
-
-    @Override
-    public void showProgressbar() {
-
-        mProgressDialog=ProgressDialog.show(this,"登录","正在登录中，请稍候~");
     }
 
     @Override
-    public void hideProgressbar() {
+    public void showPrb() {
 
-        if (mProgressDialog!=null) {
-            mProgressDialog.dismiss();
-        }
+        mActivityUtils.hideSoftKeyboard();
+        if (mProgressDialogFragment==null) mProgressDialogFragment=new ProgressDialogFragment();
+        if (mProgressDialogFragment.isVisible()) return;
+        mProgressDialogFragment.show(getSupportFragmentManager(),"dialogFragmenet");
     }
 
     @Override
-    public void showToast(String s) {
-        mActivityUtils.showToast(s);
+    public void hidePrb() {
+        mProgressDialogFragment.dismiss();
+    }
+
+    @Override
+    public void loginFailed() {
+        mEtUsername.setText("");
+        mEtPwd.setText("");
+    }
+
+    @Override
+    public void loginSuccess() {
+        mActivityUtils.startActivity(MainActivity.class);
+        finish();
+    }
+
+    @Override
+    public void showMsg(String msg) {
+        mActivityUtils.showToast(msg);
     }
 }

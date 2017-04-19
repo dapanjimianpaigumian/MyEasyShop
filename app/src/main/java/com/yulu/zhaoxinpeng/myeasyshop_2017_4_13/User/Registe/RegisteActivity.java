@@ -1,49 +1,31 @@
 package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Registe;
 
-import android.app.ProgressDialog;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.appindexing.Thing;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.gson.Gson;
+import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
-import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Login.LoginActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.RegexUtils;
-import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.UserResult;
-import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetClient;
-import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.UICallBack;
-
-import java.io.IOException;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.components.AlertDialogFragment;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.components.ProgressDialogFragment;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.MainActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
-import static android.R.string.ok;
-
-public class RegisteActivity extends AppCompatActivity implements RegisteView{
+public class RegisteActivity extends MvpActivity<RegisteView,RegistePresenter> implements RegisteView{
 
     @BindView(R.id.toolbar)
     Toolbar mToolbar;
@@ -65,7 +47,7 @@ public class RegisteActivity extends AppCompatActivity implements RegisteView{
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
-    private ProgressDialog mProgressDialog;
+    private ProgressDialogFragment mProgressDialogFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +61,12 @@ public class RegisteActivity extends AppCompatActivity implements RegisteView{
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    @NonNull
+    @Override
+    public RegistePresenter createPresenter() {
+        return new RegistePresenter();
     }
 
     private void initView() {
@@ -132,25 +120,45 @@ public class RegisteActivity extends AppCompatActivity implements RegisteView{
             return;
         }
 
-        new RegistePresenter(this).Registe(Username,Password);
+        getPresenter().Registe(Username,Password);
     }
 
     @Override
-    public void showProgressbar() {
-        mProgressDialog = ProgressDialog.show(this,"注册","正在注册中，请稍候~");
+    public void showPrb() {
+
+        mActivityUtils.hideSoftKeyboard();
+
+        if (mProgressDialogFragment==null) {
+            mProgressDialogFragment=new ProgressDialogFragment();
+        }
+
+        if (mProgressDialogFragment.isVisible()) return;
+
+        mProgressDialogFragment.show(getSupportFragmentManager(),"dialogFragment");
     }
 
     @Override
-    public void hideProgressbar() {
-        mProgressDialog.dismiss();
+    public void hidePrb() {
+        mProgressDialogFragment.dismiss();
     }
 
     @Override
-    public void showToast(String s) {
-        mActivityUtils.showToast(s);
+    public void registerSuccess() {
+
+        mActivityUtils.startActivity(MainActivity.class);
+        finish();
     }
 
+    @Override
+    public void registerFailed() {
+        mEtUsername.setText("");
+        mEtPwd.setText("");
+        mEtPwdAgain.setText("");
+    }
 
-    //----------------------------网络模块----------------------------------------------------------------------
+    @Override
+    public void showMsg(String msg) {
+        mActivityUtils.showToast(msg);
+    }
 
 }
