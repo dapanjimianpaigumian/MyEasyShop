@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Login.LoginActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.CachePreferences;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -43,9 +44,14 @@ public class MeFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.tv_login, R.id.tv_person_info, R.id.tv_person_goods, R.id.tv_goods_upload})
+    @OnClick({R.id.iv_user_head,R.id.tv_login, R.id.tv_person_info, R.id.tv_person_goods, R.id.tv_goods_upload})
     public void onViewClicked(View view) {
-        /*switch (view.getId()) {
+        //需要判断用户是否登录，从而决定跳转的位置
+        if (CachePreferences.getUser().getName() == null){
+            mActivityUtils.startActivity(LoginActivity.class);
+            return;
+        }
+        switch (view.getId()) {
             case R.id.tv_login:
                 break;
             case R.id.tv_person_info:
@@ -54,9 +60,9 @@ public class MeFragment extends Fragment {
                 break;
             case R.id.tv_goods_upload:
                 break;
-        }*/
+            case R.id.iv_user_head:
+                break;
+        }
 
-        // TODO: 2017/4/14 0014 需要判断用户是否登录，从而决定跳转的位置
-        mActivityUtils.startActivity(LoginActivity.class);
     }
 }

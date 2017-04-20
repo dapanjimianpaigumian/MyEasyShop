@@ -18,6 +18,7 @@ import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Registe.RegisteActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.components.ProgressDialogFragment;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.MainActivity;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.CachePreferences;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

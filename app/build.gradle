@@ -35,4 +35,5 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.2.0'
     compile 'com.hannesdorfmann.mosby:mvp:2.0.1'
     compile 'com.google.android.gms:play-services-appindexing:8.4.0'
+    compile 'com.pkmmte.view:circularimageview:1.1'
 }

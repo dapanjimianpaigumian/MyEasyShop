@@ -2,9 +2,12 @@ package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Login;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.CachePreferences;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.User;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.UserResult;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetClient;
 
@@ -33,7 +36,7 @@ public class LoginPresenter extends MvpNullObjectBasePresenter<LoginView>{
 
     private Handler mHandler = new Handler(Looper.getMainLooper());
 
-    public void Login(String username, String password) {
+    public void Login(final String username, final String password) {
         getView().showPrb();
 
         call = NetClient.getInstance().Login(username, password);
@@ -67,7 +70,14 @@ public class LoginPresenter extends MvpNullObjectBasePresenter<LoginView>{
                         }
 
                         if (userResult.getCode()==1) {
-                            // TODO: 2017/4/19 0019 保存用户登录信息到本地配置
+
+                            // 保存用户登录信息到本地配置
+                            User mUser = userResult.getUser();
+
+                            CachePreferences.getInstance().setUser(mUser);
+
+                            Log.e("user",mUser+mUser.getName()+mUser.getPassword()+"");
+
                             getView().hidePrb();
                             getView().loginSuccess();
                             getView().showMsg("登录成功");

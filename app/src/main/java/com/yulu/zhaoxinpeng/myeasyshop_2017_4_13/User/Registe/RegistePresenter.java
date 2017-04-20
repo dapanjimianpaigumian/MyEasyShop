@@ -5,6 +5,8 @@ import android.os.Looper;
 
 import com.google.gson.Gson;
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.CachePreferences;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.User;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.UserResult;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetClient;
 
@@ -72,8 +74,10 @@ public class RegistePresenter extends MvpNullObjectBasePresenter<RegisteView>{
 
                         if (userResult.getCode()==1) {
 
+                            User user = userResult.getUser();
+                            CachePreferences.setUser(user);
+
                             getView().showMsg("注册成功");
-                            // TODO: 2017/4/19 0019 用户信息保存到本地配置当中
                             getView().registerSuccess();
                         }else if(userResult.getCode()==2){
 
