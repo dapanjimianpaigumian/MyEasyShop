@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yulu.zhaoxinpeng.myeasyshop_2017_4_13">
 
-    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".main.EasyShopApplication"
@@ -13,9 +13,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".main.MainActivity"
-            android:launchMode="singleTask">
-
-        </activity>
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".main.SplashActivity"
             android:launchMode="singleTask">
@@ -27,18 +25,19 @@
         </activity>
         <activity
             android:name=".User.Login.LoginActivity"
-            android:launchMode="singleTask">
-
-        </activity>
+            android:launchMode="singleTask"></activity>
         <activity
             android:name=".User.Registe.RegisteActivity"
-            android:launchMode="singleTask">
-
-        </activity><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+            android:launchMode="singleTask"></activity>
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".main.me.personInfo.PersonActivity"></activity>
     </application>
 
 </manifest>

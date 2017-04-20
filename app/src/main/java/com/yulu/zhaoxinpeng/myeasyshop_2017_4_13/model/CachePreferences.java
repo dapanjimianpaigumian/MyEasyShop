@@ -50,8 +50,8 @@ public class CachePreferences {
         editor.putString(KEY_USER_PWD, user.getPassword());
         editor.putString(KEY_USER_HX_ID, user.getHx_Id());
         editor.putString(KEY_USER_TABLE_ID, user.getTable_Id());
-//        editor.putString(KEY_USER_HEAD_IMAGE, user.getHead_Image());
-//        editor.putString(KEY_USER_NICKNAME, user.getNick_name());
+        editor.putString(KEY_USER_HEAD_IMAGE, user.getHead_Image());
+        editor.putString(KEY_USER_NICKNAME, user.getNick_name());
 
         editor.apply();
     }
@@ -62,8 +62,8 @@ public class CachePreferences {
         user.setPassword(preferences.getString(KEY_USER_PWD, null));
         user.setHx_Id(preferences.getString(KEY_USER_HX_ID, null));
         user.setTable_Id(preferences.getString(KEY_USER_TABLE_ID, null));
-//        user.setHead_Image(preferences.getString(KEY_USER_HEAD_IMAGE, null));
-//        user.setNick_name(preferences.getString(KEY_USER_NICKNAME, null));
+        user.setHead_Image(preferences.getString(KEY_USER_HEAD_IMAGE, null));
+        user.setNick_name(preferences.getString(KEY_USER_NICKNAME, null));
         return user;
     }
 

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Login.LoginActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.me.personInfo.PersonActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.CachePreferences;
 
 import butterknife.ButterKnife;
@@ -55,10 +56,15 @@ public class MeFragment extends Fragment {
             case R.id.tv_login:
                 break;
             case R.id.tv_person_info:
+                mActivityUtils.startActivity(PersonActivity.class);
                 break;
             case R.id.tv_person_goods:
+                //跳转到我的商品页面
+                mActivityUtils.showToast("跳转到我的商品页面,待实现");
                 break;
             case R.id.tv_goods_upload:
+                //跳转到商品上传的页面
+                mActivityUtils.showToast("跳转到商品上传的页面，待实现");
                 break;
             case R.id.iv_user_head:
                 break;

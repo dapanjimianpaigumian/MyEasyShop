@@ -1,12 +1,21 @@
 package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network;
 
+import com.google.gson.Gson;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.CachePreferences;
+
+import java.io.File;
+
 import okhttp3.Call;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
+
+import static android.os.Build.VERSION_CODES.N;
 
 /**
  * Created by Administrator on 2017/4/17.
@@ -17,8 +26,11 @@ public class NetClient {
 
     private static NetClient mNetClient;
     private final OkHttpClient mOkHttpClient;
+    private final Gson mGson;
 
     public NetClient() {
+
+        mGson = new Gson();
 
         //设置日志拦截器
         HttpLoggingInterceptor mHttpLoggingInterceptor=new HttpLoggingInterceptor();
@@ -39,6 +51,7 @@ public class NetClient {
         return mNetClient;
     }
 
+    //登录
     public Call Login(String username,String password){
         RequestBody mRequestBody=new FormBody.Builder()
                 .add("username",username)
@@ -53,6 +66,7 @@ public class NetClient {
         return mOkHttpClient.newCall(mRequest);
     }
 
+    //注册
     public Call Registe(String username,String password){
         RequestBody mRequestBody=new FormBody.Builder()
                 .add("username",username)
@@ -67,5 +81,20 @@ public class NetClient {
         return mOkHttpClient.newCall(mRequest);
     }
 
+    //修改头像
+    public Call uploadAvatar(File file){
+        MultipartBody mMultipartBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("user", mGson.toJson(CachePreferences.getUser()))
+                .addFormDataPart("image", file.getName(),
+                        RequestBody.create(MediaType.parse("image/png"), file))
+                .build();
 
+        Request mRequest = new Request.Builder()
+                .url(NetApi.BASE_URL + NetApi.UPDATA)
+                .post(mMultipartBody)
+                .build();
+
+        return mOkHttpClient.newCall(mRequest);
+    }
 }
