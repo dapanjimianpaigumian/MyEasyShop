@@ -2,6 +2,7 @@ package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network;
 
 import com.google.gson.Gson;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.CachePreferences;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.User;
 
 import java.io.File;
 
@@ -93,6 +94,20 @@ public class NetClient {
         Request mRequest = new Request.Builder()
                 .url(NetApi.BASE_URL + NetApi.UPDATA)
                 .post(mMultipartBody)
+                .build();
+
+        return mOkHttpClient.newCall(mRequest);
+    }
+
+    public Call changeNickName(User user){
+        MultipartBody multipartBody = new MultipartBody.Builder()
+                .setType(MultipartBody.FORM)
+                .addFormDataPart("user", mGson.toJson(user))
+                .build();
+
+        Request mRequest = new Request.Builder()
+                .url(NetApi.BASE_URL + NetApi.UPDATA)
+                .post(multipartBody)
                 .build();
 
         return mOkHttpClient.newCall(mRequest);
