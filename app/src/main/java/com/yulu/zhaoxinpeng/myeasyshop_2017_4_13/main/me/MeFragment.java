@@ -64,6 +64,23 @@ public class MeFragment extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        if (CachePreferences.getUser().getName()==null) {
+            mTvLogin.setText(getString(R.string.login_register));
+            mIvHead.setImageResource(R.drawable.user_ico);
+            return;
+        }else if(CachePreferences.getUser().getName()!=null){
+            mTvLogin.setText(CachePreferences.getUser().getNick_name());
+            //头像加载操作
+            ImageLoader.getInstance()
+                    //参数，“头像路径（服务器）”，“头像显示的控件”，“加载选项”
+                    .displayImage(NetApi.IMAGE_URL+CachePreferences.getUser().getHead_Image(),mIvHead,
+                            AvatarLoadOptions.build());
+        }
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
@@ -80,7 +97,11 @@ public class MeFragment extends Fragment {
             case R.id.tv_login:
                 break;
             case R.id.tv_person_info:
-                mActivityUtils.startActivity(PersonActivity.class);
+                if (CachePreferences.getUser()==null) {
+                    mActivityUtils.startActivity(LoginActivity.class);
+                }else {
+                    mActivityUtils.startActivity(PersonActivity.class);
+                }
                 break;
             case R.id.tv_person_goods:
                 //跳转到我的商品页面

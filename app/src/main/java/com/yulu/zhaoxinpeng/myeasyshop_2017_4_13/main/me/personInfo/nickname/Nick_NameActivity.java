@@ -24,6 +24,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
+import static android.R.attr.id;
+
 public class Nick_NameActivity extends MvpActivity<Nick_NameView,Nick_NamePresenter> implements Nick_NameView {
 
     @BindView(R.id.toolbar)
@@ -75,14 +77,15 @@ public class Nick_NameActivity extends MvpActivity<Nick_NameView,Nick_NamePresen
         public void afterTextChanged(Editable s) {
             nickname = mEtNickname.getText().toString();
 
-            /*if (RegexUtils.verifyNickname(nickname) == 0) {
+            if (RegexUtils.verifyNickname(nickname) == RegexUtils.VERIFY_SUCCESS) {
                 canChange = true;
-            }*/
-
-            if(mEtNickname!=null){
-                mBtnSave.setEnabled(true);
+            }else if(RegexUtils.verifyNickname(nickname)==RegexUtils.VERIFY_LENGTH_ERROR||
+                    RegexUtils.verifyNickname(nickname)==RegexUtils.VERIFY_TYPE_ERROR){
+                mActivityUtils.showToast(R.string.nickname_rules);
+                mEtNickname.setText("");
             }
 
+            mBtnSave.setEnabled(canChange);
         }
     };
 

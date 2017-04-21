@@ -99,6 +99,7 @@ public class NetClient {
         return mOkHttpClient.newCall(mRequest);
     }
 
+    //修改昵称
     public Call changeNickName(User user){
         MultipartBody multipartBody = new MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
@@ -108,6 +109,21 @@ public class NetClient {
         Request mRequest = new Request.Builder()
                 .url(NetApi.BASE_URL + NetApi.UPDATA)
                 .post(multipartBody)
+                .build();
+
+        return mOkHttpClient.newCall(mRequest);
+    }
+
+    //获取所有商品
+    public Call getGoods(int pageNo,String type){
+        FormBody mFormBody = new FormBody.Builder()
+                .add("pageNo", String.valueOf(pageNo))
+                .add("type", type)
+                .build();
+
+        Request mRequest = new Request.Builder()
+                .url(NetApi.BASE_URL + NetApi.GETGOODS)
+                .post(mFormBody)
                 .build();
 
         return mOkHttpClient.newCall(mRequest);
