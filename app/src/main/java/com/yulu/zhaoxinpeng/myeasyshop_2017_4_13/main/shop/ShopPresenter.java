@@ -12,6 +12,7 @@ import okhttp3.Call;
 
 /**
  * Created by Administrator on 2017/4/21.
+ * 商品界面的业务类
  */
 
 public class ShopPresenter extends MvpNullObjectBasePresenter<ShopView>{
@@ -84,6 +85,7 @@ public class ShopPresenter extends MvpNullObjectBasePresenter<ShopView>{
                             getView().showLoadMoreEnd();
                         }else {
 
+                            //获取商品界面的数据集合
                             getView().addMoreData(goodsResult.getDatas());
                             getView().showLoadMoreEnd();
                         }

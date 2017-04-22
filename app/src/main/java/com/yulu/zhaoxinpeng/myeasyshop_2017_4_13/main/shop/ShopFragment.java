@@ -204,7 +204,7 @@ public class ShopFragment extends MvpFragment<ShopView,ShopPresenter> implements
 
     @Override
     public void addMoreData(List<GoodsInfo> data) {
-        mShopAdapter.addData(data);
+        mShopAdapter.addData(data);//为适配器添加数据
     }
 
     @Override

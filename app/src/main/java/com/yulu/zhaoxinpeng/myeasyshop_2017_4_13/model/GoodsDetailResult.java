@@ -2,22 +2,23 @@ package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
 /**
- * 获取商品列表时返回的实体类
+ * 单个商品详情的（响应）实体类
  *
- * "code": 1,
+ * code": 1,
  "msg": " success",
  "datas"
  */
 
-public class GoodsResult {
+public class GoodsDetailResult {
 
     private int code;
     @SerializedName("msg")
     private String message;
-    private List<GoodsInfo> datas;
+    @SerializedName("datas")
+    private GoodsDetail goodsDetailDatas;
+    //发布者的信息
+    private User user;
 
     public int getCode() {
         return code;
@@ -27,7 +28,11 @@ public class GoodsResult {
         return message;
     }
 
-    public List<GoodsInfo> getDatas() {
-        return datas;
+    public GoodsDetail getgoodsDetailDatas() {
+        return goodsDetailDatas;
+    }
+
+    public User getUser() {
+        return user;
     }
 }

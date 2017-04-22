@@ -21,7 +21,7 @@ public class NetApi {
     //更新接口（更新昵称，更新头像）
     static final String UPDATA = "UserWeb?method=update";
 
-    //获取商品
+    //获取所有商品
     static final String GETGOODS = "GoodsServlet?method=getAll";
 
     //获取商品详情

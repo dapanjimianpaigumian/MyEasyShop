@@ -6,6 +6,7 @@ import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.User;
 
 import java.io.File;
 
+import okhttp3.Cache;
 import okhttp3.Call;
 import okhttp3.FormBody;
 import okhttp3.MediaType;
@@ -114,7 +115,7 @@ public class NetClient {
         return mOkHttpClient.newCall(mRequest);
     }
 
-    //获取所有商品
+    //获取所有商品的请求
     public Call getGoods(int pageNo,String type){
         FormBody mFormBody = new FormBody.Builder()
                 .add("pageNo", String.valueOf(pageNo))
@@ -123,6 +124,20 @@ public class NetClient {
 
         Request mRequest = new Request.Builder()
                 .url(NetApi.BASE_URL + NetApi.GETGOODS)
+                .post(mFormBody)
+                .build();
+
+        return mOkHttpClient.newCall(mRequest);
+    }
+
+    //获取单个商品详情的请求
+    public Call getGoodsDetail(String uuid){
+        FormBody mFormBody = new FormBody.Builder()
+                .add("uuid", uuid)
+                .build();
+
+        Request mRequest = new Request.Builder()
+                .url(NetApi.BASE_URL + NetApi.DETAIL)
                 .post(mFormBody)
                 .build();
 
