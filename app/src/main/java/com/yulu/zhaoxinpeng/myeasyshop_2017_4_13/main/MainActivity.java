@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
@@ -42,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean isExit = false;
     private ActivityUtils mActivityUtils;
     private Unbinder bind;
+    private ShopFragment mShopFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +93,13 @@ public class MainActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new ShopFragment();
+                    if (mShopFragment==null) {
+                        mShopFragment = new ShopFragment();
+                        Log.e("new ShopFragment()",mShopFragment+"");
+                        return mShopFragment;
+                    }
+                    Log.e("old ShopFragment()",mShopFragment+"");
+                    return mShopFragment;
                 case 1:
                     return new UnLoginFragment();
                 case 2:
