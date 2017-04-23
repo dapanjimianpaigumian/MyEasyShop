@@ -49,6 +49,8 @@
             android:launchMode="singleTask"/>
         <activity android:name=".main.me.personInfo.nickname.Nick_NameActivity"
             android:launchMode="singleTask"></activity>
+        <activity android:name=".main.shop.details.GoodsDetailActivity"
+            android:launchMode="singleTask"></activity>
     </application>
 
 </manifest>

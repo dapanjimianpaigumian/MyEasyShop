@@ -1,11 +1,13 @@
 package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.shop;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import com.hannesdorfmann.mosby.mvp.MvpFragment;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.shop.details.GoodsDetailActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.GoodsInfo;
 
 import java.util.List;
@@ -75,8 +78,8 @@ public class ShopFragment extends MvpFragment<ShopView,ShopPresenter> implements
         mShopAdapter.setListener(new ShopAdapter.onItemClickListener() {
             @Override
             public void onItemClicked(GoodsInfo goodsInfo) {
-                // TODO: 2017/4/21 0021 跳转到详情页
-                mActivityUtils.showToast("跳转到详情页,待实现");
+                Intent intent = GoodsDetailActivity.getStateIntent(getContext(), goodsInfo.getUuid(), 0);
+                startActivity(intent);
             }
         });
         mRecyclerView.setAdapter(mShopAdapter);

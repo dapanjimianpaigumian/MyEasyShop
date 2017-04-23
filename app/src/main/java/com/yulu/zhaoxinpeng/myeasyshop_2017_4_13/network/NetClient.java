@@ -132,13 +132,13 @@ public class NetClient {
 
     //获取单个商品详情的请求
     public Call getGoodsDetail(String uuid){
-        FormBody mFormBody = new FormBody.Builder()
+        RequestBody mRequestBody = new FormBody.Builder()
                 .add("uuid", uuid)
                 .build();
 
         Request mRequest = new Request.Builder()
                 .url(NetApi.BASE_URL + NetApi.DETAIL)
-                .post(mFormBody)
+                .post(mRequestBody)
                 .build();
 
         return mOkHttpClient.newCall(mRequest);

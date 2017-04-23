@@ -74,4 +74,5 @@
     <string name="menu_book">图书</string>
     <string name="menu_gift">礼品</string>
     <string name="menu_other">其它</string>
+    <string name="goods_detail_out">商品过期不存在</string>
 </resources>
