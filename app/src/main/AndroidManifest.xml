@@ -45,11 +45,19 @@
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
-        <activity android:name=".main.me.personInfo.PersonActivity"
-            android:launchMode="singleTask"/>
-        <activity android:name=".main.me.personInfo.nickname.Nick_NameActivity"
-            android:launchMode="singleTask"></activity>
-        <activity android:name=".main.shop.details.GoodsDetailActivity"
+        <activity
+            android:name=".main.me.personInfo.PersonActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.me.personInfo.nickname.Nick_NameActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.shop.details.GoodsDetailActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".main.shop.details.GoodsDetailPicActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".main.me.personGoods.PersonGoodsActivity"
             android:launchMode="singleTask"></activity>
     </application>
 

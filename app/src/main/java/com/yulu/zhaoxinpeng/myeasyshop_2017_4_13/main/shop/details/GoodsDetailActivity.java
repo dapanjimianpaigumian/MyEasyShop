@@ -1,10 +1,12 @@
 package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.shop.details;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
@@ -97,7 +99,8 @@ public class GoodsDetailActivity extends MvpActivity<GoodsDetailView, GoodsDetai
         mGoodsDetailImagesAdapter.setClickListener(new GoodsDetailImagesAdapter.OnItemClickListener() {
             @Override
             public void onItemClick() {
-                mActivityUtils.showToast("点击图片，跳转至图片ViewPager");
+                Intent picIntent = GoodsDetailPicActivity.getPicIntent(getApplicationContext(), uri_ArrayList);
+                startActivity(picIntent);
             }
         });
         mViewpager.setAdapter(mGoodsDetailImagesAdapter);
@@ -111,7 +114,7 @@ public class GoodsDetailActivity extends MvpActivity<GoodsDetailView, GoodsDetai
         int state = getIntent().getIntExtra(STATE, 0);
 
         if (state == 1) {//来自我的页面
-            mTvGoodsDelete.setVisibility(View.INVISIBLE);
+            mTvGoodsDelete.setVisibility(View.VISIBLE);
             mBtnDetailMessage.setVisibility(View.GONE);
         }
 
@@ -129,8 +132,18 @@ public class GoodsDetailActivity extends MvpActivity<GoodsDetailView, GoodsDetai
         }
         switch (view.getId()) {
             case R.id.tv_goods_delete:
-                //// TODO: 2017/4/22 0021 执行删除操作
-                mActivityUtils.showToast("执行删除操作,待实现");
+                //删除商品
+                AlertDialog.Builder builder=new AlertDialog.Builder(this)
+                        .setTitle(R.string.goods_title_delete)
+                        .setMessage(R.string.goods_info_delete)
+                        .setNegativeButton(R.string.popu_cancle,null)
+                        .setPositiveButton(R.string.goods_delete, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                presenter.delete(uuid);
+                            }
+                        });
+                builder.create().show();
                 break;
             case R.id.btn_detail_message:
                 // TODO: 2017/4/22 0021 跳转到环信发消息的页面

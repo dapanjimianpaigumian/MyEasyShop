@@ -20,6 +20,7 @@ import okhttp3.Call;
 public class GoodsDetailPresenter extends MvpNullObjectBasePresenter<GoodsDetailView>{
 
     private Call call;
+    private Call deleteCall;
 
     @Override
     public void detachView(boolean retainInstance) {
@@ -67,6 +68,30 @@ public class GoodsDetailPresenter extends MvpNullObjectBasePresenter<GoodsDetail
                 }
 
 
+            }
+        });
+    }
+
+    public void delete(String uuid){
+        getView().showProgressbar();
+        deleteCall=NetClient.getInstance().deleteGoods(uuid);
+        deleteCall.enqueue(new UICallBack() {
+            @Override
+            public void onFailureUI(Call call, IOException e) {
+                getView().hideProgressbar();
+                getView().showToast(e.getMessage());
+            }
+
+            @Override
+            public void onResponseUI(Call call, String body) {
+                getView().hideProgressbar();
+                GoodsDetailResult result=new Gson().fromJson(body,GoodsDetailResult.class);
+                if (result.getCode()==1) {
+                    getView().deleteGoods();
+                    getView().showToast("删除成功");
+                }else {
+                    getView().showToast("删除失败");
+                }
             }
         });
     }

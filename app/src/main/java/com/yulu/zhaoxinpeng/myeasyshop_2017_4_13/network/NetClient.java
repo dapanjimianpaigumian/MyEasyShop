@@ -143,4 +143,32 @@ public class NetClient {
 
         return mOkHttpClient.newCall(mRequest);
     }
+
+    //获取个人商品请求
+    public Call getPersonGoodsData(int pageNO,String type,String master){
+
+        RequestBody mRequestBody= new FormBody.Builder()
+                .add("pageNo", String.valueOf(pageNO))
+                .add("master", master)
+                .add("type", type)
+                .build();
+        Request mRequest = new Request.Builder()
+                .url(NetApi.BASE_URL + NetApi.GETGOODS)
+                .post(mRequestBody)
+                .build();
+        return mOkHttpClient.newCall(mRequest);
+    }
+
+    //我的商品页面内的删除请求
+    public Call deleteGoods(String uuid){
+        RequestBody mRequestBody=new FormBody.Builder()
+                .add("uuid",uuid)
+                .build();
+
+        Request mRequest = new Request.Builder()
+                .url(NetApi.BASE_URL + NetApi.DELETE)
+                .post(mRequestBody)
+                .build();
+        return mOkHttpClient.newCall(mRequest);
+    }
 }
