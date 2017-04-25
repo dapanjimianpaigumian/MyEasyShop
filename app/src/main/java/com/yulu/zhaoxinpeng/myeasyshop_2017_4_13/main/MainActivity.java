@@ -95,10 +95,8 @@ public class MainActivity extends AppCompatActivity {
                 case 0:
                     if (mShopFragment==null) {
                         mShopFragment = new ShopFragment();
-                        Log.e("new ShopFragment()",mShopFragment+"");
                         return mShopFragment;
                     }
-                    Log.e("old ShopFragment()",mShopFragment+"");
                     return mShopFragment;
                 case 1:
                     return new UnLoginFragment();
