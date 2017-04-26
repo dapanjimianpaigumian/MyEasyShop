@@ -118,6 +118,16 @@ public class UploadGoodsAdapter extends RecyclerView.Adapter{
                 item_add.ib_add.setVisibility(View.VISIBLE);
             }
 
+            //点击添加图片
+            item_add.ib_add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    //添加图片的监听
+                    if (listener!=null) {
+                        listener.onAddClicked();
+                    }
+                }
+            });
         }
     }
 
@@ -129,8 +139,8 @@ public class UploadGoodsAdapter extends RecyclerView.Adapter{
     //----------------------逻辑：模式的选择 start-------------------------------------------------------------
 
     //编辑时的模式，1 = 有图，2 = 无图（显示加号图片的布局）
-    private static final int MODE_NORMAL=1;
-    private static final int MODE_SELECT=2;
+    public static final int MODE_NORMAL=1;
+    public static final int MODE_SELECT=2;
 
     //代表图片的编辑模式
     public int mode;
@@ -176,23 +186,23 @@ public class UploadGoodsAdapter extends RecyclerView.Adapter{
 
 
     //显示添加按钮的ViewHolder
-    private static class ItemAddViewHolder extends RecyclerView.ViewHolder{
+    public static class ItemAddViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.ib_recycle_add)
         ImageButton ib_add;
-        private ItemAddViewHolder(View itemView) {
+        public ItemAddViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
     }
 
     //已经有图片的ViewHolder
-    private static class ItemSelectViewHolder extends RecyclerView.ViewHolder{
+    public static class ItemSelectViewHolder extends RecyclerView.ViewHolder{
         @BindView(R.id.iv_photo)
         ImageView ivPhoto;
         @BindView(R.id.cb_check_photo)
         CheckBox checkBox;
         ImageItem photo;//用来控制checkbox的选择属性
-        private ItemSelectViewHolder(View itemView) {
+        public ItemSelectViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }

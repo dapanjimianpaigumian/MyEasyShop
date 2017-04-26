@@ -57,7 +57,12 @@
         <activity
             android:name=".main.shop.details.GoodsDetailPicActivity"
             android:launchMode="singleTask" />
-        <activity android:name=".main.me.personGoods.PersonGoodsActivity"
+        <activity
+            android:name=".main.me.personGoods.PersonGoodsActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".main.me.uploadGoods.UploadGoodsActivity"
+            android:launchMode="singleTask"/>
+        <activity android:name=".main.me.uploadGoods.UploadGoodsShowImageActivity"
             android:launchMode="singleTask"></activity>
     </application>
 

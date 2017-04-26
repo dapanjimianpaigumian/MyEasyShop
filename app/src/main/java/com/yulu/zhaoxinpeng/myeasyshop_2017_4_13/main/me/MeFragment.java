@@ -16,6 +16,7 @@ import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.components.AvatarLoadOptions;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.me.personGoods.PersonGoodsActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.me.personInfo.PersonActivity;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.me.uploadGoods.UploadGoodsActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.CachePreferences;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetApi;
 
@@ -110,7 +111,7 @@ public class MeFragment extends Fragment {
                 break;
             case R.id.tv_goods_upload:
                 //跳转到商品上传的页面
-                mActivityUtils.showToast("跳转到商品上传的页面，待实现");
+                mActivityUtils.startActivity(UploadGoodsActivity.class);
                 break;
             case R.id.iv_user_head:
                 break;

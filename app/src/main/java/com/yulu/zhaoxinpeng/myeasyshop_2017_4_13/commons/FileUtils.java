@@ -4,7 +4,8 @@ package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons;
  * Created by Administrator on 2017/4/14.
  */
 
-/*import android.os.Handler;
+import android.os.Build;
+import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 
@@ -14,9 +15,9 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.File;
 import java.util.List;
 
-*//**
+/**
  *  文件操作的工具类
- *//*
+ */
 @SuppressWarnings("unused")
 final class FileUtils {
 
@@ -96,7 +97,7 @@ final class FileUtils {
         boolean shouldEnd();
     }
 
-    *//**
+    /**
      * Create a unique non existing file named like the given file name. If a file with the given name already exists,
      * add a number as suffix to the file name.<br>
      * Example: For the file name "file.ext" this will return the first file of the list
@@ -106,7 +107,7 @@ final class FileUtils {
      * <li>file_3.ext</li>
      * </ul>
      * which does not yet exist.
-     *//*
+     */
     @NonNull
     public static File getUniqueNamedFile(final File file) {
         if (!file.exists()) {
@@ -124,9 +125,9 @@ final class FileUtils {
         throw new IllegalStateException("Unable to generate a non-existing file name");
     }
 
-    *//**
+    /**
      * This usage of this method indicates that the return value of File.delete() can safely be ignored.
-     *//*
+     */
     public static void deleteIgnoringFailure(final File file) {
         final boolean success = file.delete() || !file.exists();
         if (!success) {
@@ -134,11 +135,11 @@ final class FileUtils {
         }
     }
 
-    *//**
+    /**
      * Deletes a file and logs deletion failures.
      *
      * @return {@code true} if this file was deleted, {@code false} otherwise.
-     *//*
+     */
     public static boolean delete(final File file) {
         final boolean success = file.delete() || !file.exists();
         if (!success) {
@@ -147,12 +148,12 @@ final class FileUtils {
         return success;
     }
 
-    *//**
+    /**
      * Creates the directory named by the given file, creating any missing parent directories in the process.
      *
      * @return {@code true} if the directory was created, {@code false} on failure or if the directory already
      *         existed.
-     *//*
+     */
     public static boolean mkdirs(final File file) {
         final boolean success = file.mkdirs() || file.isDirectory(); // mkdirs returns false on existing directories
         if (!success) {
@@ -161,34 +162,33 @@ final class FileUtils {
         return success;
     }
 
-    *//**
+    /**
      * Check if the URL represents a file on the local file system.
      *
      * @return <tt>true</tt> if the URL scheme is <tt>file</tt>, <tt>false</tt> otherwise
-     *//*
+     */
     public static boolean isFileUrl(final String url) {
         return StringUtils.startsWith(url, FILE_PROTOCOL);
     }
 
-    *//**
+    /**
      * Build an URL from a file name.
      *
      * @param file a local file name
      * @return an URL with the <tt>file</tt> scheme
-     *//*
+     */
     @NonNull
     public static String fileToUrl(final File file) {
         return FILE_PROTOCOL + file.getAbsolutePath();
     }
 
-    *//**
+    /**
      * Local file name when {@link #isFileUrl(String)} is <tt>true</tt>.
      *
      * @return the local file
-     *//*
+     */
     @NonNull
     public static File urlToFile(final String url) {
         return new File(StringUtils.substring(url, FILE_PROTOCOL.length()));
     }
-}*/
-
+}

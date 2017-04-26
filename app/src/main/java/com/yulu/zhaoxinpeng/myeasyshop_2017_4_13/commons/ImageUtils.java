@@ -4,7 +4,7 @@ package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons;
  * Created by Administrator on 2017/4/14.
  */
 
-/*import android.content.Context;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -18,6 +18,8 @@ import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -25,6 +27,8 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+
+import static android.R.id.list;
 
 public final class ImageUtils {
     private static final int[] ORIENTATIONS = {
@@ -60,14 +64,14 @@ public final class ImageUtils {
     }
 
 
-    *//**
+    /**
      * Store a bitmap to file.
      *
      * @param bitmap            The bitmap to store
      * @param format            The image format
      * @param quality           The image quality
      * @param pathOfOutputImage Path to store to
-     *//*
+     */
     public static void storeBitmap(final Bitmap bitmap, final Bitmap.CompressFormat format, final int quality, final String pathOfOutputImage) {
         try {
             final FileOutputStream out = new FileOutputStream(pathOfOutputImage);
@@ -81,12 +85,12 @@ public final class ImageUtils {
     }
 
 
-    *//**
+    /**
      * Scales a bitmap to the given bounds if it is larger, otherwise returns the original bitmap.
      *
      * @param image The bitmap to scale
      * @return BitmapDrawable The scaled image
-     *//*
+     */
     @NonNull
     public static BitmapDrawable scaleBitmapTo(Context context,
                                                @NonNull final Bitmap image,
@@ -109,13 +113,13 @@ public final class ImageUtils {
     }
 
 
-    *//**
+    /**
      * Scales an image to the desired bounds and encodes to file.
      *
      * @param filePath Image to read
      * @param maxXY    bounds
      * @return filename and path, <tt>null</tt> if something fails
-     *//*
+     */
     @Nullable
     public static String readScaleAndWriteImage(Context context, @NonNull final String filePath, final int maxXY) {
         if (maxXY <= 0) {
@@ -136,14 +140,14 @@ public final class ImageUtils {
         return uploadFilename;
     }
 
-    *//**
+    /**
      * Reads and scales an image file with downsampling in one step to prevent memory consumption.
      *
      * @param filePath The file to read
      * @param maxX     The desired width
      * @param maxY     The desired height
      * @return Bitmap the image or null if file can't be read
-     *//*
+     */
     @Nullable
     public static Bitmap readDownsampledImage(@NonNull final String filePath, final int maxX, final int maxY) {
         int orientation = ExifInterface.ORIENTATION_NORMAL;
@@ -176,12 +180,12 @@ public final class ImageUtils {
         return decodedImage;
     }
 
-    *//**
+    /**
      * Create a File for saving an image or video
      *
      * @return the temporary image file to use, or <tt>null</tt> if the media directory could
      * not be created.
-     *//*
+     */
     @Nullable
     public static File getOutputImageFile() {
         // To be safe, you should check that the SDCard is mounted
@@ -211,13 +215,13 @@ public final class ImageUtils {
         return Uri.fromFile(file);
     }
 
-    *//**
+    /**
      * Check if the URL contains one of the given substrings.
      *
      * @param url      the URL to check
      * @param patterns a list of substrings to check against
      * @return <tt>true</tt> if the URL contains at least one of the patterns, <tt>false</tt> otherwise
-     *//*
+     */
     public static boolean containsPattern(final String url, final String[] patterns) {
         for (final String entry : patterns) {
             if (StringUtils.containsIgnoreCase(url, entry)) {
@@ -228,5 +232,4 @@ public final class ImageUtils {
     }
 
 
-}*/
-
+}
