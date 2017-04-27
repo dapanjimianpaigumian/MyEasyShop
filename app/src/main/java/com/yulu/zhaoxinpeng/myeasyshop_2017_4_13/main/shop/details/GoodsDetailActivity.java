@@ -15,11 +15,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.feicuiedu.apphx.model.repository.DefaultLocalUsersRepo;
+import com.feicuiedu.apphx.presentation.chat.HxChatActivity;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.User.Login.LoginActivity;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.CurrentUser;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.components.AvatarLoadOptions;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.components.ProgressDialogFragment;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.CachePreferences;
@@ -146,8 +149,16 @@ public class GoodsDetailActivity extends MvpActivity<GoodsDetailView, GoodsDetai
                 builder.create().show();
                 break;
             case R.id.btn_detail_message:
-                // TODO: 2017/4/22 0021 跳转到环信发消息的页面
-                mActivityUtils.showToast("跳转到环信发消息的页面,待实现");
+                // 跳转到环信发消息的页面
+                //根据环信Id判断商品归属，自己不能给自己发消息
+                if (user.getHx_Id().equals(CachePreferences.getUser().getHx_Id())) {
+                    mActivityUtils.showToast("这个商品是自己发布的哦");
+                    return;
+                }
+
+                //跳转到环信发消息的界面
+                DefaultLocalUsersRepo.getInstance(this).save(CurrentUser.convert(user));
+                startActivity(HxChatActivity.getStartIntent(GoodsDetailActivity.this,user.getHx_Id()));
                 break;
         }
     }

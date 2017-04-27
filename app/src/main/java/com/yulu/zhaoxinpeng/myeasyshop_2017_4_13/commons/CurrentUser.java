@@ -2,20 +2,18 @@ package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons;
 
 /**
  * Created by Administrator on 2017/4/14.
+ * 将User转换为EaseUser(环信相关)
  */
-
-/*import com.fuicuiedu.xc.easyshop_20170206.model.User;
-import com.fuicuiedu.xc.easyshop_20170206.network.EasyShopApi;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.hyphenate.easeui.utils.EaseCommonUtils;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.User;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetApi;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-*//**
- * 将User转换为EaseUser(环信相关)
- *//*
+
 public class CurrentUser {
 
     private CurrentUser() {
@@ -47,9 +45,9 @@ public class CurrentUser {
         //从user取需要的信息保存到EaseUser中，完成转换
         EaseUser easeUser = new EaseUser(user.getHx_Id());
         easeUser.setNick(user.getNick_name());
-        easeUser.setAvatar(EasyShopApi.IMAGE_URL + user.getHead_Image());
+        easeUser.setAvatar(NetApi.IMAGE_URL + user.getHead_Image());
         EaseCommonUtils.setUserInitialLetter(easeUser);
         return easeUser;
     }
-}*/
+}
 

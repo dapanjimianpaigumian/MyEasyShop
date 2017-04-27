@@ -6,13 +6,16 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.widget.TextView;
 
+import com.feicuiedu.apphx.presentation.contact.list.HxContactListFragment;
+import com.feicuiedu.apphx.presentation.conversation.HxConversationListFragment;
+import com.nostra13.universalimageloader.utils.L;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.commons.ActivityUtils;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.me.MeFragment;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.shop.ShopFragment;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.CachePreferences;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -56,7 +59,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        mViewPager.setAdapter(mFragmentStatePagerAdapter);
+
+        //判断用户是否登录，从而选择不同的适配器
+        if (CachePreferences.getUser().getName()==null) {
+            mViewPager.setAdapter(unLoginAdapter);
+            mViewPager.setCurrentItem(0);
+        }else {
+            mViewPager.setAdapter(mFragmentStatePagerAdapter);
+            mViewPager.setCurrentItem(0);
+        }
 
         //默认刚进来显示市场Fragment
         mTextViews[0].setSelected(true);
@@ -88,16 +99,41 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private FragmentStatePagerAdapter mFragmentStatePagerAdapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+    //用户已登录的适配器
+    private FragmentStatePagerAdapter mFragmentStatePagerAdapter =  new FragmentStatePagerAdapter(getSupportFragmentManager()) {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    if (mShopFragment==null) {
+                    if (mShopFragment == null) {
                         mShopFragment = new ShopFragment();
                         return mShopFragment;
                     }
                     return mShopFragment;
+                case 1:
+                    //消息
+                    return new HxConversationListFragment();
+                case 2:
+                    //通讯录
+                    return new HxContactListFragment();
+                case 3:
+                    //我的
+                    return new MeFragment();
+            }
+            return null;
+        }
+        @Override
+        public int getCount() {
+            return 4;
+        }
+    };
+    //用户未登录时的适配器
+    protected FragmentStatePagerAdapter unLoginAdapter=new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return new ShopFragment();
                 case 1:
                     return new UnLoginFragment();
                 case 2:
@@ -110,9 +146,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return mTextViews.length;
+            return 4;
         }
     };
+
+
 
     @Override
     public void onBackPressed() {

@@ -12,7 +12,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.feicuiedu.apphx.model.HxUserManager;
 import com.hannesdorfmann.mosby.mvp.MvpActivity;
+import com.hyphenate.easeui.controller.EaseUI;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pkmmte.view.CircularImageView;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.R;
@@ -153,7 +155,10 @@ public class PersonActivity extends MvpActivity<PersonView, PersonPresenter> imp
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
 
-                // TODO: 2017/4/20 退出环信ID
+                //退出环信ID
+                HxUserManager.getInstance().asyncLogout();
+                //登出关掉通知栏中的通知
+                EaseUI.getInstance().getNotifier().reset();
                 break;
         }
     }

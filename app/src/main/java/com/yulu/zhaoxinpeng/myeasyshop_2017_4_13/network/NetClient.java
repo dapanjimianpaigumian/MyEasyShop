@@ -7,6 +7,7 @@ import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.User;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.FormBody;
@@ -190,6 +191,36 @@ public class NetClient {
                 .url(NetApi.BASE_URL + NetApi.UPLOADGOODS)
                 .build();
 
+        return mOkHttpClient.newCall(mRequest);
+    }
+
+    //查找好友请求
+    public Call getSearchUser(String nickname){
+        RequestBody mRequestBody = new FormBody.Builder()
+                .add("nickname", nickname)
+                .build();
+
+        Request mRequest = new Request.Builder()
+                .url(NetApi.BASE_URL + NetApi.GET_USER)
+                .post(mRequestBody)
+                .build();
+        return mOkHttpClient.newCall(mRequest);
+    }
+
+    //获取好友列表请求
+    public Call getUsers(List<String> ids){
+        String names = ids.toString();
+        //清除list转换到字符串后的string中空格
+        names=names.replace("","");
+
+        RequestBody mRequestBody=new FormBody.Builder()
+                .add("name",names)
+                .build();
+
+        Request mRequest = new Request.Builder()
+                .url(NetApi.BASE_URL + NetApi.GET_NAMES)
+                .post(mRequestBody)
+                .build();
         return mOkHttpClient.newCall(mRequest);
     }
 }

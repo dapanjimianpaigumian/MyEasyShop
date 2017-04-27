@@ -1,10 +1,13 @@
 package com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.main.me.personInfo;
 
+import com.feicuiedu.apphx.model.HxMessageManager;
+import com.feicuiedu.apphx.model.HxUserManager;
 import com.google.gson.Gson;
 import com.hannesdorfmann.mosby.mvp.MvpNullObjectBasePresenter;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.CachePreferences;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.User;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.model.UserResult;
+import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetApi;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.NetClient;
 import com.yulu.zhaoxinpeng.myeasyshop_2017_4_13.network.UICallBack;
 
@@ -49,6 +52,7 @@ public class PersonPresenter extends MvpNullObjectBasePresenter<PersonView> {
                     getView().showToast("未知错误");
                 }else if(mUserResult.getCode()!=1){
                     getView().showToast(mUserResult.getMessage());
+                    return;
                 }
 
                 User mUser = mUserResult.getUser();
@@ -57,7 +61,9 @@ public class PersonPresenter extends MvpNullObjectBasePresenter<PersonView> {
                 //上传成功，触发UI操作（更新头像）
                 getView().updateAvatar(mUserResult.getUser().getHead_Image());
 
-                // TODO: 2017/4/20 0020 环信更新头像
+                // 环信更新头像
+                HxUserManager.getInstance().updateAvatar(NetApi.IMAGE_URL+mUserResult.getUser().getHead_Image());
+                HxMessageManager.getInstance().sendAvatarUpdateMessage(NetApi.IMAGE_URL+mUserResult.getUser().getHead_Image());
             }
         });
     }
